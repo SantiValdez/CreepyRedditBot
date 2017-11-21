@@ -17,12 +17,12 @@ let recordOfUsers = {};
 
 
 setInterval( () =>{
-r.getSubreddit("Askreddit").getNew().then((posts) => {
+r.getSubreddit("Askreddit").getHot().then((posts) => {
 
     let authors = [];
 
     posts.forEach(element => {
-        if(element.title.toLowerCase().indexOf("who") !== -1){
+        if(element.title.toLowerCase().indexOf("creepy") !== -1){
             console.log(element.title);
             if(relevantResults.indexOf(element.url) === -1){
                 relevantResults.push(element.url);
