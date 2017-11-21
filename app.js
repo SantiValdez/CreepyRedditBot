@@ -21,6 +21,9 @@ const parameters = [
     "spooky",
     "spookiest",
     "unsettling",
+    "unsolved",
+    "unresolved",
+    "mystery"
 ]
 
 let relevantResults = [];
