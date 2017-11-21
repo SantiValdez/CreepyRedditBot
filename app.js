@@ -11,6 +11,17 @@ const r = new Snoowrap({
     password: process.env.REDDIT_PASS
 });
 
+const parameters = [
+    "creepy",
+    "creepiest",
+    "scary",
+    "scariest",
+    "paranormal",
+    "unexplained",
+    "spooky",
+    "spookiest",
+    "unsettling",
+]
 
 let relevantResults = [];
 let recordOfUsers = {};
@@ -22,10 +33,18 @@ r.getSubreddit("Askreddit").getHot().then((posts) => {
     let authors = [];
 
     posts.forEach(element => {
-        if(element.title.toLowerCase().indexOf("creepy") !== -1){
-            console.log(element.title);
-            if(relevantResults.indexOf(element.url) === -1){
-                relevantResults.push(element.url);
+        // if(element.title.toLowerCase().indexOf("creepy") !== -1){
+        //     console.log(element.title);
+        //     if(relevantResults.indexOf(element.url) === -1){
+        //         relevantResults.push(element.url);
+        //     }
+        // }
+        for(let i = 0; i < parameters.length; i++){
+            if(element.title.toLowerCase().indexOf(parameters[i]) !== -1){
+                console.log(element.title);
+                if(relevantResults.indexOf(element.url) === -1){
+                    relevantResults.push(element.url);
+                }
             }
         }
     });
