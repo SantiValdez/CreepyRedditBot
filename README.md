@@ -1,1 +1,1 @@
-A reddit clone done with node + snoowrap by a noob.
+A reddit bot done with node + snoowrap by a noob.
