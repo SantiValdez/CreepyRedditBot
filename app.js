@@ -53,19 +53,19 @@ r.getSubreddit("Askreddit").getHot().then((posts) => {
                     recordOfUsers[comment.author.name] = [];
                     console.log(recordOfUsers);
                 }
-            });
 
-            relevantResults.forEach(result => {
-                if(recordOfUsers[comment.author.name].indexOf(result) === -1){
-                    r.composeMessage({
-                        to: comment.author.name,
-                        subject: 'New creepy askreddit! (CreepyAskredditBot)',
-                        text: 'New creepy thread! \n\n' + 
-                                result.toString() + "\n\n" +  
-                                "*if this thread has already been sent to you, [click here to know why](https://www.reddit.com/r/CreepyAskredditBot/comments/7eucv2/if_you_got_a_duplicate_message_heres_why/)*"
-                    });        
-                    recordOfUsers[comment.author.name].push(result.toString());       
-                }
+                relevantResults.forEach(result => {
+                    if(recordOfUsers[comment.author.name].indexOf(result) === -1){
+                        r.composeMessage({
+                            to: comment.author.name,
+                            subject: 'New creepy askreddit! (CreepyAskredditBot)',
+                            text: 'New creepy thread! \n\n' + 
+                                    result.toString() + "\n\n" +  
+                                    "*if this thread has already been sent to you, [click here to know why](https://www.reddit.com/r/CreepyAskredditBot/comments/7eucv2/if_you_got_a_duplicate_message_heres_why/)*"
+                        });        
+                        recordOfUsers[comment.author.name].push(result.toString());       
+                    }
+                });
             });
         });
 
