@@ -35,8 +35,8 @@ let recordOfUsers = {};
 
 
 setInterval( () =>{
-    console.log("Scanning...");
     r.getSubreddit("Askreddit").getHot().then((posts) => {
+        console.log("Scanning...");
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
@@ -74,4 +74,4 @@ setInterval( () =>{
 
         }
     });
-}, 9000 * 1000); // every 15 minutes
+}, 15 * 60 * 1000); // every 15 minutes
