@@ -54,7 +54,6 @@ setInterval( () =>{
                 threadObj.comments.forEach(comment =>{
                     if(!recordOfUsers.hasOwnProperty(comment.author.name.toString())){
                         recordOfUsers[comment.author.name] = [];
-                        console.log(recordOfUsers);
                     }
 
                     relevantPosts.forEach(post => {
