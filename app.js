@@ -74,4 +74,4 @@ setInterval( () =>{
 
         }
     });
-}, 1800 * 1000); // every 30 minutes
+}, 9000 * 1000); // every 15 minutes
