@@ -40,7 +40,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== '7es84h'){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -61,7 +61,7 @@ setInterval( () =>{
                             r.composeMessage({
                                 to: comment.author.name,
                                 subject: 'New creepy askreddit! (CreepyAskredditBot)',
-                                text: 'New creepy thread! \n\n' + 
+                                text: '**New creepy thread!** \n\n' + 
                                         post.toString() + "\n\n" +  
                                         "*if this thread has already been sent to you, [click here to know why](https://www.reddit.com/r/CreepyAskredditBot/comments/7eucv2/if_you_got_a_duplicate_message_heres_why/)*"
                             });        
