@@ -32,6 +32,7 @@ let relevantPosts = [];
 //keep a record of who got sent a message so that nobody gets spammed by accident
 // key: user name value: relevant url
 let recordOfUsers = {};
+let totalUsers = 0;
 
 
 setInterval( () =>{
@@ -54,6 +55,7 @@ setInterval( () =>{
                 threadObj.comments.forEach(comment =>{
                     if(!recordOfUsers.hasOwnProperty(comment.author.name.toString())){
                         recordOfUsers[comment.author.name] = [];
+                        totalUsers++;
                     }
 
                     relevantPosts.forEach(post => {
@@ -67,6 +69,7 @@ setInterval( () =>{
                             });        
                             recordOfUsers[comment.author.name].push(post.toString()); 
                             console.log("Sent: " + post.toString() + "to: " + comment.author.name);
+                            console.log(totalUsers);
                         }
                     });
                 });
