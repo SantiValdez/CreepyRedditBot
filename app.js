@@ -24,7 +24,8 @@ const parameters = [
     "unsolved",
     "unresolved",
     "mystery",
-    "mysterious"
+    "mysterious",
+    "urban legends"
 ]
 
 //store all posts that match parameters here to loop through later
