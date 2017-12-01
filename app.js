@@ -73,7 +73,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7gpns0"){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
