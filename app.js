@@ -4,12 +4,14 @@ const Snoowrap = require('snoowrap');
 
 // Build Snoowrap client
 const r = new Snoowrap({
-    userAgent: 'CreepyAskredditBot',
+    userAgent: 'notify people for scary askreddit posts v1.0 (by /u/HarryHayes)',
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     username: process.env.REDDIT_USER,
     password: process.env.REDDIT_PASS
 });
+
+r.config({requestDelay: 1000, continueAfterRatelimitError: true});
 
 const parameters = [
     "creepy",
@@ -43,7 +45,6 @@ const parameters = [
     "ghost",
     "ghostly",
     "cryptid",
-    "alien",
     "demon",
     "demonic",
     "possession",
@@ -73,7 +74,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7gpns0"){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7gy961" && element.id !== "7guvmi"){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
