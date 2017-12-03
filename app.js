@@ -74,7 +74,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7gy961" && element.id !== "7guvmi"){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7h3l7r" && element.id !== "7h69gl" && element.id !== "7h6rur"){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -92,7 +92,7 @@ setInterval( () =>{
                     }
 
                     relevantPosts.forEach(post => {
-                        if(recordOfUsers[comment.author.name].indexOf(post) === -1){
+                        if(recordOfUsers[comment.author.name].indexOf(post) === -1 && recordOfUsers[comment.author.name] !== '[deleted]'){
                             r.composeMessage({
                                 to: comment.author.name,
                                 subject: 'New creepy askreddit! (CreepyAskredditBot)',
