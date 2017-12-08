@@ -148,6 +148,7 @@ setInterval( () =>{
                                     }
                                 });
                             });
+                            message.markAsRead();
                         }
                     });
                 }//
