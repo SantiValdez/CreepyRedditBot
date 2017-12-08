@@ -151,7 +151,7 @@ setInterval( () =>{
                             message.markAsRead();
                         }
                     });
-                }//
+                }
             });
         });
     });
