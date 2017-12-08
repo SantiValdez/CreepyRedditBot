@@ -79,7 +79,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7hw81p" && element.id !== "7hw4il" && element.id !== "7hul6l"){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7i8ofx"){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -127,16 +127,17 @@ setInterval( () =>{
         }
 
         //get all unread PM's
-        r.getInbox('unread').then(messages => {
+        r.getInbox('messages').then(messages => {
             messages.forEach(message => {
                 if(message.new){
                     unsubscribeParams.forEach(param => {
                         //if a message contains unsubscribe keyword look that user up in the thread and delete their comment
-                        if(message.body.indexOf(param) !== -1){
+                        if(message.body.toLowerCase().indexOf(param) !== -1){
                             r.getSubmission('7efxig').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
                                 threadObj.comments.forEach(comment =>{
                                     if(comment.author.name === message.author.name){
-                                        comment.delete();
+                                        console.log("Deleted " + comment.author.name + "'s comment from the thread.");
+                                        comment.remove();
 
                                         r.composeMessage({
                                             to: comment.author.name,
@@ -149,7 +150,7 @@ setInterval( () =>{
                             });
                         }
                     });
-                }
+                }//
             });
         });
     });
