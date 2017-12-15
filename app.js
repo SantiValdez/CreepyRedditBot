@@ -50,8 +50,6 @@ const parameters = [
     "possession",
     "can't explain",
     "can't identify",
-    "can't believe",
-    "won't believe",
     "no one would believe",
     "unnerving",
     "eerie",
@@ -70,7 +68,11 @@ let recordOfUsers = {};
 let totalUsers = 0;
 
 
+
+
+
 setInterval( () =>{
+    totalUsers = 0;
 
     let allUrls = [];
 
@@ -79,7 +81,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7i8ofx"){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7jnnv7"){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -88,7 +90,7 @@ setInterval( () =>{
             allUrls.push(element.url);
         });
 
-        //Remove posts that get pushed out so that they dont get sent to new users.
+        // Remove posts that get pushed out so that they dont get sent to new users.
         for (let i = 0; i < relevantPosts.length; i++) {
             if(allUrls.indexOf(relevantPosts[i]) === -1){
                 console.log("Removing - " + relevantPosts[i] + " - as it's not in the front-page anymore.");
@@ -98,35 +100,35 @@ setInterval( () =>{
 
 
         if(relevantPosts.length > 0){
-
             r.getSubmission('7efxig').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
                 threadObj.comments.forEach(comment =>{
-                    if(!recordOfUsers.hasOwnProperty(comment.author.name.toString())){
-                        recordOfUsers[comment.author.name] = [];
-                        totalUsers++;
-                    }
-
-                    relevantPosts.forEach(post => {
-                        if(recordOfUsers[comment.author.name].indexOf(post) === -1 && recordOfUsers[comment.author.name] !== '[deleted]'){
-                            r.composeMessage({
-                                to: comment.author.name,
-                                subject: 'New creepy askreddit! (CreepyAskredditBot)',
-                                text: '**New creepy thread!** \n\n' + 
-                                        post.toString() + "\n\n" +  
-                                        '*if this thread has already been sent to you, [click here to know why](https://www.reddit.com/r/CreepyAskredditBot/comments/7eucv2/if_you_got_a_duplicate_message_heres_why/)* \n\n' +
-                                        '**[^click ^here ^to ^stop ^receiving ^messages](https://www.reddit.com/r/CreepyAskredditBot/comments/7i0uh4/want_to_unsubscribe_read_here/)**'
-                            });        
-                            recordOfUsers[comment.author.name].push(post.toString()); 
-                            console.log("Sent: " + post.toString() + "to: " + comment.author.name);
-                            console.log(totalUsers);
+                    if(!comment.removed){
+                        if(!recordOfUsers.hasOwnProperty(comment.author.name.toString())){
+                            recordOfUsers[comment.author.name] = [];
+                            totalUsers++;
                         }
-                    });
+
+                        relevantPosts.forEach(post => {
+                            if(recordOfUsers[comment.author.name].indexOf(post) === -1 && recordOfUsers[comment.author.name] !== '[deleted]'){
+                                r.composeMessage({
+                                    to: comment.author.name,
+                                    subject: 'New creepy askreddit! (CreepyAskredditBot)',
+                                    text: '**New creepy thread!** \n\n' + 
+                                            post.toString() + "\n\n" +  
+                                            '*if this thread has already been sent to you, [click here to know why](https://www.reddit.com/r/CreepyAskredditBot/comments/7eucv2/if_you_got_a_duplicate_message_heres_why/)* \n\n' +
+                                            '**[^click ^here ^to ^stop ^receiving ^messages](https://www.reddit.com/r/CreepyAskredditBot/comments/7i0uh4/want_to_unsubscribe_read_here/)**'
+                                });        
+                                recordOfUsers[comment.author.name].push(post.toString()); 
+                                console.log("Sent: " + post.toString() + "to: " + comment.author.name);
+                                console.log(totalUsers);
+                            }
+                        });
+                    }
                 });
             });
-
         }
 
-        //get all unread PM's
+        // get all unread PM's
         r.getInbox('messages').then(messages => {
             messages.forEach(message => {
                 if(message.new){
@@ -138,21 +140,25 @@ setInterval( () =>{
                                     if(comment.author.name === message.author.name){
                                         console.log("Deleted " + comment.author.name + "'s comment from the thread.");
                                         comment.remove();
+                                        try{
+                                            delete recordOfUsers[comment.author.name];
+                                        } catch (err){
+                                            console.log(err);
+                                        }
 
-                                        r.composeMessage({
-                                            to: comment.author.name,
-                                            subject: 'You have been unsubscribed. (CreepyAskredditBot)',
-                                            text: "You have been unsubscribed from CreepyAskredditBot. You will not receive messaged anymore. \n\n"
-                                            + "If you wish to subscribe again, just leave a comment on [this thread](https://www.reddit.com/r/CreepyAskredditBot/comments/7efxig/comment_here_to_get_notified_by_the_bot/)"
-                                        }); 
+                                        // r.composeMessage({
+                                        //     to: comment.author.name,
+                                        //     subject: 'You have been unsubscribed. (CreepyAskredditBot)',
+                                        //     text: "You have been unsubscribed from CreepyAskredditBot. You will not receive messaged anymore. \n\n"
+                                        //     + "If you wish to subscribe again, just leave a comment on [this thread](https://www.reddit.com/r/CreepyAskredditBot/comments/7efxig/comment_here_to_get_notified_by_the_bot/)"
+                                        // }); 
                                     }
                                 });
                             });
-                            message.markAsRead();
                         }
                     });
                 }
             });
         });
     });
-}, 15 * 60 * 1000); // every 15 minutes
+}, 15 * 60 * 1000); // every 15 minutes  15 * 60 * 1000
