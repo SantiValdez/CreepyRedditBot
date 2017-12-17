@@ -4,14 +4,14 @@ const Snoowrap = require('snoowrap');
 
 // Build Snoowrap client
 const r = new Snoowrap({
-    userAgent: 'notify people for scary askreddit posts v1.0 (by /u/HarryHayes)',
+    userAgent: 'scary askreddit posts v1.1 (by /u/HarryHayes)',
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     username: process.env.REDDIT_USER,
     password: process.env.REDDIT_PASS
 });
 
-r.config({requestDelay: 1000, continueAfterRatelimitError: true});
+r.config({requestDelay: 1000, warnings: false, continueAfterRatelimitError: true});
 
 const parameters = [
     "creepy",
@@ -102,7 +102,7 @@ setInterval( () =>{
         if(relevantPosts.length > 0){
             r.getSubmission('7efxig').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
                 threadObj.comments.forEach(comment =>{
-                    if(!comment.removed){
+                    if(!comment.removed && comment.author.name !== "[deleted]"){
                         if(!recordOfUsers.hasOwnProperty(comment.author.name.toString())){
                             recordOfUsers[comment.author.name] = [];
                             totalUsers++;
@@ -145,13 +145,6 @@ setInterval( () =>{
                                         } catch (err){
                                             console.log(err);
                                         }
-
-                                        // r.composeMessage({
-                                        //     to: comment.author.name,
-                                        //     subject: 'You have been unsubscribed. (CreepyAskredditBot)',
-                                        //     text: "You have been unsubscribed from CreepyAskredditBot. You will not receive messaged anymore. \n\n"
-                                        //     + "If you wish to subscribe again, just leave a comment on [this thread](https://www.reddit.com/r/CreepyAskredditBot/comments/7efxig/comment_here_to_get_notified_by_the_bot/)"
-                                        // }); 
                                     }
                                 });
                             });
@@ -161,4 +154,4 @@ setInterval( () =>{
             });
         });
     });
-}, 15 * 60 * 1000); // every 15 minutes  15 * 60 * 1000
+}, 30 * 60 * 1000); // every 15 minutes  15 * 60 * 1000
