@@ -148,6 +148,7 @@ setInterval( () =>{
                                     }
                                 });
                             });
+                            r.getMessage(message.id).markAsRead();
                         }
                     });
                 }
