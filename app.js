@@ -65,6 +65,7 @@ let relevantPosts = [];
 //keep a record of who got sent a message so that nobody gets spammed by accident
 // key: user name value: relevant url
 let recordOfUsers = {};
+let removedUsers = []; //this is a temporary list of users that unsubbed to help avoid msging them right after unsubbing
 let totalUsers = 0;
 
 
@@ -81,7 +82,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== "7qidtq"){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== '7tmsyq' && element.id !== '7tu4wj' && element.id !== '7tntyt'){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -109,7 +110,9 @@ setInterval( () =>{
                         }
 
                         relevantPosts.forEach(post => {
-                            if(recordOfUsers[comment.author.name].indexOf(post) === -1 && recordOfUsers[comment.author.name] !== '[deleted]'){
+                            if(recordOfUsers[comment.author.name].indexOf(post) === -1 && 
+                               recordOfUsers[comment.author.name] !== '[deleted]'      && 
+                               removedUsers.indexOf(comment.author.name) === -1){
                                 r.composeMessage({
                                     to: comment.author.name,
                                     subject: 'New creepy askreddit! (CreepyAskredditBot)',
@@ -121,6 +124,8 @@ setInterval( () =>{
                                 recordOfUsers[comment.author.name].push(post.toString()); 
                                 console.log("Sent: " + post.toString() + "to: " + comment.author.name);
                                 console.log(totalUsers);
+                            }else{
+                                console.log(comment.author.name + " has unsubbed recently or has already been sent the post."); //laziest most unhelpful log ever
                             }
                         });
                     }
@@ -138,13 +143,12 @@ setInterval( () =>{
                             r.getSubmission('7efxig').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
                                 threadObj.comments.forEach(comment =>{
                                     if(comment.author.name === message.author.name){
+                                        if(recordOfUsers[comment.author.name] !== undefined){
+                                            delete recordOfUsers[comment.author.name];
+                                        }
+                                        removedUsers.push(comment.author.name);
                                         console.log("Deleted " + comment.author.name + "'s comment from the thread.");
                                         comment.remove();
-                                        try{
-                                            delete recordOfUsers[comment.author.name];
-                                        } catch (err){
-                                            console.log(err);
-                                        }
                                     }
                                 });
                             });
