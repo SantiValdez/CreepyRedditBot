@@ -82,7 +82,7 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== '7tmsyq' && element.id !== '7tu4wj' && element.id !== '7tntyt'){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== '7ueb5c' && element.id !== '7uhshn'){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -124,8 +124,6 @@ setInterval( () =>{
                                 recordOfUsers[comment.author.name].push(post.toString()); 
                                 console.log("Sent: " + post.toString() + "to: " + comment.author.name);
                                 console.log(totalUsers);
-                            }else{
-                                console.log(comment.author.name + " has unsubbed recently or has already been sent the post."); //laziest most unhelpful log ever
                             }
                         });
                     }
