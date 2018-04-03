@@ -48,14 +48,13 @@ const parameters = [
     "demon",
     "demonic",
     "possession",
-    "can't explain",
-    "can't identify",
     "no one would believe",
     "unnerving",
     "eerie",
     "liminal",
     "unearthly",
-    "otherworldly"
+    "otherworldly",
+    "horror"
 ]
 
 const unsubscribeParams = ["unsubscribe", "stop", "don't message", "dont message", "stop messaging"];
@@ -82,7 +81,10 @@ setInterval( () =>{
 
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 && element.id !== '7ueb5c' && element.id !== '7uhshn'){
+                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 
+                && element.link_flair_css_class === 'serious' 
+                && element.id !== '898ng4' 
+                && element.id !== '89gk67'){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
