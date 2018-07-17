@@ -131,6 +131,35 @@ setInterval( () =>{
                     }
                 });
             });
+
+            r.getSubmission('8msqq5').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
+                threadObj.comments.forEach(comment =>{
+                    if(!comment.removed && comment.author.name !== "[deleted]"){
+                        if(!recordOfUsers.hasOwnProperty(comment.author.name.toString())){
+                            recordOfUsers[comment.author.name] = [];
+                            totalUsers++;
+                        }
+
+                        relevantPosts.forEach(post => {
+                            if(recordOfUsers[comment.author.name].indexOf(post) === -1 && 
+                               recordOfUsers[comment.author.name] !== '[deleted]'      && 
+                               removedUsers.indexOf(comment.author.name) === -1){
+                                r.composeMessage({
+                                    to: comment.author.name,
+                                    subject: 'New creepy askreddit! (CreepyAskredditBot)',
+                                    text: '**New creepy thread!** \n\n' + 
+                                            post.toString() + "\n\n" +  
+                                            '*if this thread has already been sent to you, [click here to know why](https://www.reddit.com/r/CreepyAskredditBot/comments/7eucv2/if_you_got_a_duplicate_message_heres_why/)* \n\n' +
+                                            '**[^click ^here ^to ^stop ^receiving ^messages](https://www.reddit.com/r/CreepyAskredditBot/comments/7i0uh4/want_to_unsubscribe_read_here/)**'
+                                });        
+                                recordOfUsers[comment.author.name].push(post.toString()); 
+                                console.log("Sent: " + post.toString() + "to: " + comment.author.name);
+                                console.log(totalUsers);
+                            }
+                        });
+                    }
+                });
+            });
         }
 
         // get all unread PM's
