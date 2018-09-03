@@ -82,8 +82,7 @@ setInterval( () =>{
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
                 if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 
-                && element.link_flair_text === 'Serious Replies Only' 
-                && element.id !== '94frbp'){
+                && element.link_flair_text === 'Serious Replies Only'){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -200,4 +199,4 @@ setInterval( () =>{
             });
         });
     });
-}, 20 * 1000); // 30 * 60 * 1000
+}, 30 * 60 * 1000); // 30 * 60 * 1000
