@@ -82,9 +82,8 @@ setInterval( () =>{
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
                 if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 
-                && element.link_flair_css_class === 'serious' 
-                && element.id !== '898ng4' 
-                && element.id !== '89gk67'){
+                && element.link_flair_text === 'Serious Replies Only' 
+                && element.id !== '94frbp'){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -92,6 +91,7 @@ setInterval( () =>{
             }
             allUrls.push(element.url);
         });
+
 
         // Remove posts that get pushed out so that they dont get sent to new users.
         for (let i = 0; i < relevantPosts.length; i++) {
@@ -181,6 +181,18 @@ setInterval( () =>{
                                     }
                                 });
                             });
+                            r.getSubmission('8msqq5').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
+                                threadObj.comments.forEach(comment =>{
+                                    if(comment.author.name === message.author.name){
+                                        if(recordOfUsers[comment.author.name] !== undefined){
+                                            delete recordOfUsers[comment.author.name];
+                                        }
+                                        removedUsers.push(comment.author.name);
+                                        console.log("Deleted " + comment.author.name + "'s comment from the thread.");
+                                        comment.remove();
+                                    }
+                                });
+                            });
                             r.getMessage(message.id).markAsRead();
                         }
                     });
@@ -188,4 +200,4 @@ setInterval( () =>{
             });
         });
     });
-}, 30 * 60 * 1000); // every 15 minutes  15 * 60 * 1000
+}, 20 * 1000); // 30 * 60 * 1000
