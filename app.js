@@ -11,7 +11,7 @@ const r = new Snoowrap({
     password: process.env.REDDIT_PASS
 });
 
-r.config({requestDelay: 1000, warnings: false, continueAfterRatelimitError: true});
+r.config({requestDelay: 1000, warnings: false, continueAfterRatelimitError: true, debug: false});
 
 const parameters = [
     "creepy",
@@ -69,6 +69,15 @@ let totalUsers = 0;
 
 
 
+const stream = fs.createWriteStream("users.txt");
+    stream.once('open', ()=> {
+    stream.write("My first row\n");
+    stream.write("My second row\n");
+    stream.end();
+});
+
+
+
 
 
 setInterval( () =>{
@@ -78,11 +87,11 @@ setInterval( () =>{
 
     r.getSubreddit("Askreddit").getHot().then((posts) => {
         console.log("Scanning...");
-
+        
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
                 if(element.title.toLowerCase().indexOf(parameters[i]) !== -1 
-                && element.link_flair_text === 'Serious Replies Only'){
+                && ('' + element.link_flair_text) === 'Serious Replies Only'){
                     if(relevantPosts.indexOf(element.url) === -1){
                         relevantPosts.push(element.url);
                     }
@@ -101,7 +110,9 @@ setInterval( () =>{
         }
 
 
+        
         if(relevantPosts.length > 0){
+
             r.getSubmission('7efxig').expandReplies({limit:Infinity, depth: Infinity}).then(threadObj =>{
                 threadObj.comments.forEach(comment =>{
                     if(!comment.removed && comment.author.name !== "[deleted]"){
@@ -160,6 +171,8 @@ setInterval( () =>{
                 });
             });
         }
+
+        
 
         // get all unread PM's
         r.getInbox('messages').then(messages => {
