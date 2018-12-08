@@ -65,14 +65,12 @@ setInterval( () =>{
         posts.forEach(element => {
             for(let i = 0; i < parameters.length; i++){
                 if(element.title.toLowerCase().indexOf(parameters[i]) !== -1){
-                    if(relevantPosts.indexOf(element.url) === -1){
-                        r.getSubreddit('CreepyBotStash').submitCrosspost({ 
-                            title: element.title,
-                            originalPost: element.id, 
-                            sendReplies: false, 
-                        });
-                        console.log("Crossposted: " + element.title);
-                    }
+                    r.getSubreddit('CreepyBotStash').submitCrosspost({ 
+                        title: element.title,
+                        originalPost: element.id, 
+                        sendReplies: false, 
+                    });
+                    console.log("Crossposted: " + element.title);
                 }
             }
         });
