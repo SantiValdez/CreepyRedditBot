@@ -59,19 +59,22 @@ const parameters = [
 
 setInterval( () =>{
 
+    let alreadyPosted = [];
+
     r.getSubreddit("Askreddit").getHot().then((posts) => {
         console.log("Scanning...");
         
         posts.forEach(element => {
-            for(let i = 0; i < parameters.length; i++){
-                if(element.title.toLowerCase().indexOf(parameters[i]) !== -1){
-                    r.getSubreddit('CreepyBotStash').submitCrosspost({ 
-                        title: element.title,
-                        originalPost: element.id, 
-                        sendReplies: false, 
-                    });
-                    console.log("Crossposted: " + element.title);
-                }
+            if(element.title.toLowerCase().indexOf(parameters) !== -1
+            && element.id.indexOf(alreadyPosted) < 0
+            && element.id !== 'a4ju6w'){
+                r.getSubreddit('CreepyBotStash').submitCrosspost({ 
+                    title: element.title,
+                    originalPost: element.id, 
+                    sendReplies: false, 
+                });
+                alreadyPosted.push(element.id);
+                console.log("Crossposted: " + element.title);
             }
         });
     });
