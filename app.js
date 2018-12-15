@@ -66,8 +66,7 @@ setInterval( () =>{
         
         posts.forEach(element => {
             if(element.title.toLowerCase().indexOf(parameters) !== -1
-            && element.id.indexOf(alreadyPosted) < 0
-            && element.id !== 'a4ju6w'){
+            && alreadyPosted.indexOf(element.id) === -1){
                 r.getSubreddit('CreepyBotStash').submitCrosspost({ 
                     title: element.title,
                     originalPost: element.id, 
