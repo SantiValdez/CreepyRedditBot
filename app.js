@@ -65,16 +65,19 @@ setInterval( () =>{
         console.log("Scanning...");
         
         posts.forEach(element => {
-            if(element.title.toLowerCase().indexOf(parameters) !== -1
-            && alreadyPosted.indexOf(element.id) === -1){
-                r.getSubreddit('CreepyBotStash').submitCrosspost({ 
-                    title: element.title,
-                    originalPost: element.id, 
-                    sendReplies: false, 
-                });
-                alreadyPosted.push(element.id);
-                console.log("Crossposted: " + element.title);
-            }
+            let title = element.title.toLowerCase().split(' ');
+            title.forEach(word =>{
+                if(parameters.indexOf(word) !== -1
+                && alreadyPosted.indexOf(element.id) === -1){
+                    r.getSubreddit('CreepyBotStash').submitCrosspost({ 
+                        title: element.title,
+                        originalPost: element.id, 
+                        sendReplies: false, 
+                    });
+                    alreadyPosted.push(element.id);
+                    console.log("Crossposted: " + element.title);
+                }
+            });
         });
     });
 }, 30 * 60 * 1000); // 30 * 60 * 1000
