@@ -57,9 +57,9 @@ const parameters = [
     "horror"
 ]
 
-setInterval( () =>{
+let alreadyPosted = [];
 
-    let alreadyPosted = [];
+setInterval( () =>{
 
     r.getSubreddit("Askreddit").getHot().then((posts) => {
         console.log("Scanning...");
