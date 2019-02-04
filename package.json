@@ -11,6 +11,6 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "snoostorm": "0.0.5",
-    "snoowrap": "^1.14.2"
+    "snoowrap": "^1.15.2"
   }
 }
