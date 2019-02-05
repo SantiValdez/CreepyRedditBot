@@ -62,6 +62,7 @@ let alreadyPosted = [];
 setInterval( () =>{
 
     r.getSubreddit("Askreddit").getHot().then((posts) => {
+        
         console.log("Scanning...");
         
         posts.forEach(element => {
